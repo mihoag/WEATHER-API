@@ -60,7 +60,18 @@ public class Location {
 	this.enabled = enabled;
 	this.trashed = trashed;
   }
-   public String getCode() {
+  
+   
+  
+   public Location(String cityName, String countryName, String regionName, String countryCode) {
+	super();
+	this.cityName = cityName;
+	this.countryName = countryName;
+	this.regionName = regionName;
+	this.countryCode = countryCode;
+}
+
+public String getCode() {
 	return code;
    }
    public void setCode(String code) {

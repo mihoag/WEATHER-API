@@ -1,6 +1,7 @@
 package com.skyapi.weatherforecast.common;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -132,6 +133,11 @@ public boolean equals(Object obj) {
 	RealtimeWeather other = (RealtimeWeather) obj;
 	return Objects.equals(locationCode, other.locationCode);
 }
-  
-  
+
+@Override
+public String toString() {
+	return "RealtimeWeather [locationCode=" + locationCode + ", temperature=" + temperature + ", humidity=" + humidity
+			+ ", precipitation=" + precipitation + ", windSpeed=" + windSpeed + ", status=" + status + ", lastUpdated="
+			+ lastUpdated + ", location=" + location + "]";
+}  
 }
