@@ -21,5 +21,8 @@ public interface LocationRepository extends JpaRepository<Location, String> {
 	@Query(value = "select * from location l where l.trashed = 0 and l.code = ?1", nativeQuery = true)
 	public Location get(String code);
 	
+	@Query(value = "select * from location l where l.trashed = 0 and l.country_code = ?1 and l.city_name = ?2" , nativeQuery = true)
+	public Location findByCountryCodeAndCityName(String country, String cityName);
+	
 }
 

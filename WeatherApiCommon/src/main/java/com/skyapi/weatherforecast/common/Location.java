@@ -1,5 +1,7 @@
 package com.skyapi.weatherforecast.common;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import org.hibernate.validator.constraints.Length;
@@ -10,6 +12,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -40,6 +43,9 @@ public class Location {
    @PrimaryKeyJoinColumn
    private RealtimeWeather realtimeWeather; 
    
+   
+   @OneToMany(mappedBy = "id.location" , cascade = CascadeType.ALL, orphanRemoval = true)
+   public List<HourlyWeather> listHourlyWeather = new ArrayList<>();
    
    private boolean enabled;
    
@@ -135,8 +141,7 @@ public boolean equals(Object obj) {
 
 @Override
 public String toString() {
-	return "Location [code=" + code + ", cityName=" + cityName + ", countryName=" + countryName + ", regionName="
-			+ regionName + ", countryCode=" + countryCode + ", enabled=" + enabled + ", trashed=" + trashed + "]";
+	return code + " => " + cityName + ", " + (regionName != null ? regionName + ", " : "") + countryName;
 } 
 
 
@@ -162,4 +167,14 @@ public RealtimeWeather getRealtimeWeather() {
 public void setRealtimeWeather(RealtimeWeather realtimeWeather) {
 	this.realtimeWeather = realtimeWeather;
 }
+
+public List<HourlyWeather> getListHourlyWeather() {
+	return listHourlyWeather;
+}
+
+public void setListHourlyWeather(List<HourlyWeather> listHourlyWeather) {
+	this.listHourlyWeather = listHourlyWeather;
+}
+
+
 }
