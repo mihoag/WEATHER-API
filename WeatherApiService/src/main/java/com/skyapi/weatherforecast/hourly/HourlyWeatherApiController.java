@@ -147,7 +147,6 @@ public class HourlyWeatherApiController {
 		
 		listDTO.forEach(dto -> {
 			HourlyWeather hw =modelMapper.map(dto, HourlyWeather.class);
-		    hw.getId().setHourOfDay(dto.getHourOfDay());
 			listEntity.add(hw);
 		});
 		
@@ -162,7 +161,6 @@ public class HourlyWeatherApiController {
 		
 		hourlyForecast.forEach(hourlyWeather -> {
 			HourlyWeatherDTO dto = modelMapper.map(hourlyWeather, HourlyWeatherDTO.class);
-			dto.setHourOfDay(hourlyWeather.getId().getHourOfDay());
 			listDTO.addWeatherHourlyDTO(dto);
 		});
 		

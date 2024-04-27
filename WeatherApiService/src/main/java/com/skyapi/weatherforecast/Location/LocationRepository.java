@@ -14,7 +14,7 @@ public interface LocationRepository extends JpaRepository<Location, String> {
 	public List<Location> findUntrashed();
 	
 	@Modifying
-	@Query(value = "update location  set trashed = 1 where code= ?1", nativeQuery = true)
+	@Query(value = "update location set trashed = 1 where code= ?1", nativeQuery = true)
 	public void trashByCode(String code);
 	
 	

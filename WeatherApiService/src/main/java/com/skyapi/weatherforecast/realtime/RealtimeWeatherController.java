@@ -15,6 +15,7 @@ import com.skyapi.weatherforecast.CommonUtility;
 import com.skyapi.weatherforecast.GeolocationService;
 import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.common.RealtimeWeather;
+import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -86,7 +87,9 @@ public class RealtimeWeatherController {
 						methodOn(RealtimeWeatherController.class).getRealtimeWeatherByLocationCode(locationCode))
 							.withSelfRel());
 		
-		
+		dto.add(linkTo(
+				methodOn(HourlyWeatherApiController.class).listHourlyForecastByIPAddress(null))
+					.withRel("hourly_forecast"));
 		return dto;
 	}	
 	

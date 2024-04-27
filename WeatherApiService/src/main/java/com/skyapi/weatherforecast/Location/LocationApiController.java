@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skyapi.weatherforecast.common.Location;
+import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
+import com.skyapi.weatherforecast.realtime.RealtimeWeatherController;
 
 import jakarta.validation.Valid;
 
@@ -96,7 +98,14 @@ public class LocationApiController {
 	{
 		dto.add(linkTo(
 				methodOn(LocationApiController.class).getLocation(dto.getCode()))
-					.withSelfRel());	
+					.withSelfRel());
+		dto.add(linkTo(
+				methodOn(RealtimeWeatherController.class).getRealtimeWeatherByLocationCode(dto.getCode()))
+					.withRel("realtime_weather"));	
+		
+		dto.add(linkTo(
+				methodOn(HourlyWeatherApiController.class).listHourlyForecastByLocationCode(dto.getCode(), null))
+					.withRel("hourly_forecast"));
 		return dto;
 	}
 	

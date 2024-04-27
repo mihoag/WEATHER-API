@@ -36,18 +36,25 @@ public class LocationService {
 	   return repo.save(locationDb);
    }
    
-   public void delete(String code)
+   public void delete(String code)  
    {
-	   Location location = repo.findById(code).get();
-	   if(location == null)
-	   {
-		   throw new LocationNotFoundException(code);
-	   }
-	   repo.trashByCode(code);
+	   try {
+		   System.out.println(code);
+		   repo.trashByCode(code);
+	  } catch (Exception e) {
+		// TODO: handle exception
+		  throw new LocationNotFoundException(code);
+	  }
+	 
    }
    
    public Location getByCode(String code)
    {
-	   return repo.get(code);
+	   Location location = repo.get(code);
+	   if(location == null)
+	   {
+		   throw new LocationNotFoundException(code);
+	   }
+	   return location;
    }
 }
