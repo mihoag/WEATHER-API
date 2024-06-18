@@ -1,4 +1,4 @@
-package com.skyapi.weatherforecast;
+package com.skyapi.weatherforecast.exception_handler;
 
 import java.util.Date;
 import java.util.List;
@@ -20,7 +20,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.skyapi.weatherforecast.Location.LocationNotFoundException;
+import com.skyapi.weatherforecast.exception_handler.ErrorDTO;
+import com.skyapi.weatherforecast.location.LocationNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;

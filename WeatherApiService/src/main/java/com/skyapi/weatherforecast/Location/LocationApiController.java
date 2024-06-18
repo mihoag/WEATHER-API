@@ -1,6 +1,7 @@
-package com.skyapi.weatherforecast.Location;
+package com.skyapi.weatherforecast.location;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skyapi.weatherforecast.common.Location;
+import com.skyapi.weatherforecast.daily.DailyWeatherApiController;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
 import com.skyapi.weatherforecast.realtime.RealtimeWeatherController;
 
@@ -53,7 +55,10 @@ public class LocationApiController {
 		{
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(lsLocations);
+		
+		
+		
+		return ResponseEntity.ok(listEntity2DTO(lsLocations));
 	}
 	 
 	@GetMapping("/{code}")
@@ -77,13 +82,6 @@ public class LocationApiController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	
-	private List<LocationDTO> listEntity2Dto(List<Location> lsLocation)
-	{
-		return lsLocation.stream().map(entity -> entity2DTO(entity)).collect(Collectors.toList());
-	}
-	
-	
 	public LocationDTO entity2DTO(Location location)
 	{
 	    return this.modelMapper.map(location,LocationDTO.class);	
@@ -94,6 +92,17 @@ public class LocationApiController {
 		return this.modelMapper.map(dto, Location.class);
 	}
 	
+	public List<LocationDTO> listEntity2DTO(List<Location> lsLocation)
+	{
+		List<LocationDTO> listDTO = new ArrayList<>();
+		
+		lsLocation.forEach(location -> {
+		   listDTO.add(addLinks2Item(entity2DTO(location)));
+		});
+		return listDTO;
+	}
+	
+	
 	private LocationDTO addLinks2Item(LocationDTO dto)
 	{
 		dto.add(linkTo(
@@ -101,15 +110,14 @@ public class LocationApiController {
 					.withSelfRel());
 		dto.add(linkTo(
 				methodOn(RealtimeWeatherController.class).getRealtimeWeatherByLocationCode(dto.getCode()))
-					.withRel("realtime_weather"));	
+					.withRel("realtime"));	
 		
 		dto.add(linkTo(
 				methodOn(HourlyWeatherApiController.class).listHourlyForecastByLocationCode(dto.getCode(), null))
 					.withRel("hourly_forecast"));
+		dto.add(linkTo(
+				methodOn(DailyWeatherApiController.class).listDailyForecastByLocationCode(dto.getCode()))
+					.withRel("daily_forecast"));
 		return dto;
 	}
-	
-	
-
-	
 }

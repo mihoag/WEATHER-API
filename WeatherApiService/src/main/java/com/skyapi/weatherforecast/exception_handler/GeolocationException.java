@@ -1,4 +1,4 @@
-package com.skyapi.weatherforecast;
+package com.skyapi.weatherforecast.exception_handler;
 
 public class GeolocationException extends RuntimeException {
   

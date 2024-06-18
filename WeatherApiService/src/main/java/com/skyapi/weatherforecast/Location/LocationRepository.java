@@ -1,4 +1,4 @@
-package com.skyapi.weatherforecast.Location;
+package com.skyapi.weatherforecast.location;
 
 import java.util.List;
 

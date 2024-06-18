@@ -1,4 +1,4 @@
-package com.skyapi.weatherforecast.Location;
+package com.skyapi.weatherforecast.location;
 
 import java.util.List;
 
@@ -24,6 +24,7 @@ public class LocationService {
    {
 	   return repo.findUntrashed();
    }
+   
    public Location update(Location locationInRequest)
    {
 	   String code = locationInRequest.getCode();

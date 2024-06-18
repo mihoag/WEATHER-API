@@ -1,4 +1,4 @@
-package com.skyapi.weatherforecast;
+package com.skyapi.weatherforecast.exception_handler;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +9,7 @@ public class ErrorDTO {
   private int status;
   private String path;
   private List<String> error = new ArrayList<>();
+  
 public Date getTimestamp() {
 	return timestamp;
 }

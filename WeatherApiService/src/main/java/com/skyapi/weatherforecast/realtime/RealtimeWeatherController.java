@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skyapi.weatherforecast.CommonUtility;
-import com.skyapi.weatherforecast.GeolocationService;
 import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.common.RealtimeWeather;
+import com.skyapi.weatherforecast.common_service.GeolocationService;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
+import com.skyapi.weatherforecast.utility.CommonUtility;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -26,6 +26,7 @@ public class RealtimeWeatherController {
 	private GeolocationService locationService;
 	private RealtimeWeatherService realtimeWeatherService;
 	private ModelMapper modelMapper;
+	
 	public RealtimeWeatherController(GeolocationService locationService, RealtimeWeatherService realtimeWeatherService,
 			ModelMapper modelMapper) {
 		super();
@@ -33,6 +34,7 @@ public class RealtimeWeatherController {
 		this.realtimeWeatherService = realtimeWeatherService;
 		this.modelMapper = modelMapper;
 	}
+	
 	@GetMapping
 	public ResponseEntity<?> getRealtimeWeatherByIPAddress(HttpServletRequest request) {
 		String ipAddress = CommonUtility.getIPAddress(request);

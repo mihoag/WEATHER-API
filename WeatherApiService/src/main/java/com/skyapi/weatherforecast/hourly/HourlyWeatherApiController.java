@@ -12,12 +12,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skyapi.weatherforecast.BadRequestException;
-import com.skyapi.weatherforecast.CommonUtility;
-import com.skyapi.weatherforecast.GeolocationService;
 import com.skyapi.weatherforecast.common.HourlyWeather;
 import com.skyapi.weatherforecast.common.Location;
+import com.skyapi.weatherforecast.common_service.GeolocationService;
+import com.skyapi.weatherforecast.exception_handler.BadRequestException;
 import com.skyapi.weatherforecast.realtime.RealtimeWeatherController;
+import com.skyapi.weatherforecast.utility.CommonUtility;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

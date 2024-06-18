@@ -1,4 +1,4 @@
-package com.skyapi.weatherforecast.Location;
+package com.skyapi.weatherforecast.location;
 
 public class LocationNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;

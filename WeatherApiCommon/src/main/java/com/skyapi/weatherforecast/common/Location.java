@@ -32,6 +32,7 @@ public class Location {
    @Column(length = 64, nullable = false)
    private String countryName;
    
+   
    @Column(length = 128)
    private String regionName;
    
@@ -46,6 +47,9 @@ public class Location {
    
    @OneToMany(mappedBy = "id.location" , cascade = CascadeType.ALL, orphanRemoval = true)
    public List<HourlyWeather> listHourlyWeather = new ArrayList<>();
+   
+   @OneToMany(mappedBy = "id.location")
+   private List<DailyWeather> listDailyWeather = new ArrayList<>();
    
    private boolean enabled;
    
@@ -75,47 +79,60 @@ public class Location {
 	this.countryName = countryName;
 	this.regionName = regionName;
 	this.countryCode = countryCode;
-}
+   }
 
-public String getCode() {
-	return code;
+   public String getCode() {
+	 return code;
    }
+   
    public void setCode(String code) {
-	this.code = code;
+	 this.code = code;
    }
+   
    public String getCityName() {
-	return cityName;
+	 return cityName;
    }
+   
    public void setCityName(String cityName) {
-	this.cityName = cityName;
+	  this.cityName = cityName;
    }
+   
    public String getCountryName() {
-	return countryName;
+	  return countryName;
    }
+   
    public void setCountryName(String countryName) {
-	this.countryName = countryName;
+	  this.countryName = countryName;
    }
+   
    public String getRegionName() {
-	return regionName;
+	  return regionName;
    }
+   
    public void setRegionName(String regionName) {
-	this.regionName = regionName;
+	  this.regionName = regionName;
    }
+   
    public String getCountryCode() {
-	return countryCode;
+	  return countryCode;
    }
+   
    public void setCountryCode(String countryCode) {
-	this.countryCode = countryCode;
+	  this.countryCode = countryCode;
    }
+   
    public boolean isEnabled() {
-	return enabled;
+	  return enabled;
    }
+   
    public void setEnabled(boolean enabled) {
-	this.enabled = enabled;
+	  this.enabled = enabled;
    }
+   
    public boolean isTrashed() {
-	return trashed;
+	 return trashed;
    }
+   
    public void setTrashed(boolean trashed) {
 	this.trashed = trashed;
    }
@@ -176,5 +193,11 @@ public void setListHourlyWeather(List<HourlyWeather> listHourlyWeather) {
 	this.listHourlyWeather = listHourlyWeather;
 }
 
+public List<DailyWeather> getListDailyWeather() {
+	return listDailyWeather;
+}
 
+public void setListDailyWeather(List<DailyWeather> listDailyWeather) {
+	this.listDailyWeather = listDailyWeather;
+}
 }

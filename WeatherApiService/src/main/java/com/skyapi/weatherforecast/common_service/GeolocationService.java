@@ -1,4 +1,4 @@
-package com.skyapi.weatherforecast;
+package com.skyapi.weatherforecast.common_service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ip2location.IP2Location;
 import com.ip2location.IPResult;
 import com.skyapi.weatherforecast.common.Location;
+import com.skyapi.weatherforecast.exception_handler.GeolocationException;
 
 @Service
 public class GeolocationService {
@@ -50,7 +51,7 @@ public class GeolocationService {
    }
    
    public static void main(String[] args) {
-	   //GeolocationService ser = new GeolocationService();
-	   //System.out.println(ser.getLocation("103.249.22.75"));
+	   GeolocationService ser = new GeolocationService();
+	   System.out.println(ser.getLocation("102.176.175.255"));
 }
 }
