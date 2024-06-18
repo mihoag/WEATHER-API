@@ -158,7 +158,6 @@ public class DailyWeatherApiController {
 	
 	private DailyWeatherListDTO listEntity2DTO(List<DailyWeather> dailyForecast) {
 		Location location = dailyForecast.get(0).getId().getLocation();
-		
 	    DailyWeatherListDTO listDTO = new DailyWeatherListDTO();
 		listDTO.setLocation(location.toString());
 		

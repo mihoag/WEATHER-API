@@ -5,15 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skyapi.weatherforecast.AbstractLocationService;
 import com.skyapi.weatherforecast.common.Location;
 
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class LocationService {
-   @Autowired
-   private LocationRepository repo;
+public class LocationService extends AbstractLocationService{
+   
+	public LocationService(LocationRepository repo)
+	{
+	   this.repo = repo;	
+	}
    
    public Location add(Location location)
    {
@@ -49,13 +53,5 @@ public class LocationService {
 	 
    }
    
-   public Location getByCode(String code)
-   {
-	   Location location = repo.get(code);
-	   if(location == null)
-	   {
-		   throw new LocationNotFoundException(code);
-	   }
-	   return location;
-   }
+   
 }

@@ -22,7 +22,6 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "Location")
 public class Location {
-   
    @Id
    private String code;
    
@@ -139,65 +138,65 @@ public class Location {
 
 
 
-@Override
-public int hashCode() {
-	return Objects.hash(code);
-}
+   @Override
+   public int hashCode() {
+	 return Objects.hash(code);
+   }
 
-@Override
-public boolean equals(Object obj) {
-	if (this == obj)
+   @Override
+   public boolean equals(Object obj) {
+	 if (this == obj)
 		return true;
-	if (obj == null)
+	 if (obj == null)
 		return false;
-	if (getClass() != obj.getClass())
+	 if (getClass() != obj.getClass())
 		return false;
-	Location other = (Location) obj;
-	return Objects.equals(code, other.code);
-}
+	 Location other = (Location) obj;
+	 return Objects.equals(code, other.code);
+   }
 
-@Override
-public String toString() {
-	return code + " => " + cityName + ", " + (regionName != null ? regionName + ", " : "") + countryName;
-} 
+   @Override
+   public String toString() {
+   return cityName + ", " + (regionName != null ? regionName + ", " : "") + countryName;
+   } 
 
 
-public void copyFieldsFrom(Location another)
-{
-	setCityName(another.getCityName());
-	setRegionName(another.getRegionName());
-	setCountryCode(another.getCountryCode());
-	setCountryName(another.getCountryName());
-}
+   public void copyFieldsFrom(Location another)
+   {
+	 setCityName(another.getCityName());
+	 setRegionName(another.getRegionName());
+	 setCountryCode(another.getCountryCode());
+	 setCountryName(another.getCountryName());
+   }
 
-public void copyAllFieldsFrom(Location another)
-{
-	copyFieldsFrom(another);
-	setCode(another.getCode());
-	setTrashed(another.isTrashed());
-}
+   public void copyAllFieldsFrom(Location another)
+   {
+	 copyFieldsFrom(another);
+	 setCode(another.getCode());
+	 setTrashed(another.isTrashed());
+   }
 
-public RealtimeWeather getRealtimeWeather() {
-	return realtimeWeather;
-}
+   public RealtimeWeather getRealtimeWeather() {
+	 return realtimeWeather;
+   }
 
-public void setRealtimeWeather(RealtimeWeather realtimeWeather) {
-	this.realtimeWeather = realtimeWeather;
-}
+   public void setRealtimeWeather(RealtimeWeather realtimeWeather) {
+	 this.realtimeWeather = realtimeWeather;
+   }
 
-public List<HourlyWeather> getListHourlyWeather() {
-	return listHourlyWeather;
-}
+   public List<HourlyWeather> getListHourlyWeather() {
+	 return listHourlyWeather;
+   }
 
-public void setListHourlyWeather(List<HourlyWeather> listHourlyWeather) {
-	this.listHourlyWeather = listHourlyWeather;
-}
+   public void setListHourlyWeather(List<HourlyWeather> listHourlyWeather) {
+	 this.listHourlyWeather = listHourlyWeather;
+   }
 
-public List<DailyWeather> getListDailyWeather() {
-	return listDailyWeather;
-}
+   public List<DailyWeather> getListDailyWeather() {
+	 return listDailyWeather;
+   }
 
-public void setListDailyWeather(List<DailyWeather> listDailyWeather) {
-	this.listDailyWeather = listDailyWeather;
-}
+   public void setListDailyWeather(List<DailyWeather> listDailyWeather) {
+	 this.listDailyWeather = listDailyWeather;
+   }
 }

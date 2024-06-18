@@ -7,13 +7,16 @@ import org.springframework.context.annotation.Configuration;
 
 import com.skyapi.weatherforecast.common.DailyWeather;
 import com.skyapi.weatherforecast.common.HourlyWeather;
+import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.common.RealtimeWeather;
 import com.skyapi.weatherforecast.daily.DailyWeatherDTO;
+import com.skyapi.weatherforecast.full.FullWeatherDTO;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherDTO;
 import com.skyapi.weatherforecast.realtime.RealtimeWeatherDTO;
 
 @Configuration
 public class AppConfig {
+	
 	@Bean
     public ModelMapper modelMapper() {
 		ModelMapper mapper = new ModelMapper();
@@ -21,6 +24,7 @@ public class AppConfig {
 		configureMappingForHourlyWeather(mapper);	
 		configureMappingForRealtimeWeather(mapper);
 		configureMappingForDailyWeather(mapper);
+		configureMappingForFullWeather(mapper);
 		return mapper;
     }
 	
@@ -38,6 +42,11 @@ public class AppConfig {
 				(dest, value) ->	dest.getId().setHourOfDay(value != null ? (int) value : 0));
 	}
 	
+	private void configureMappingForFullWeather(ModelMapper mapper) {
+		mapper.typeMap(Location.class, FullWeatherDTO.class)
+			.addMapping(src -> src.toString(), FullWeatherDTO::setLocation);
+	}
+	
 	private void configureMappingForDailyWeather(ModelMapper mapper)
 	{
 		mapper.typeMap(DailyWeather.class, DailyWeatherDTO.class)
@@ -48,4 +57,6 @@ public class AppConfig {
 		.addMapping(src -> src.getDayOfMonth(), (des, value)-> des.getId().setDayOfMonth(value != null ? (int) value : 0))
         .addMapping(src -> src.getMonth(), (des, value) -> des.getId().setMonth(value != null ? (int) value : 0));
 	}
+	
+	
 }
