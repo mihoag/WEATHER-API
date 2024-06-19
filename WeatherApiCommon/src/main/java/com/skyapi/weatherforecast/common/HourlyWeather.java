@@ -74,11 +74,10 @@ public class HourlyWeather {
 		copy.setId(this.getId());
 		return copy;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "HourlyWeather [id=" + id + ", temperature=" + temperature + ", precipitation=" + precipitation
 				+ ", status=" + status + "]";
 	}
-	
 }

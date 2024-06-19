@@ -22,6 +22,7 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "Location")
 public class Location {
+   @Column(length = 12, nullable = false, unique = true)
    @Id
    private String code;
    
@@ -47,7 +48,7 @@ public class Location {
    @OneToMany(mappedBy = "id.location" , cascade = CascadeType.ALL, orphanRemoval = true)
    public List<HourlyWeather> listHourlyWeather = new ArrayList<>();
    
-   @OneToMany(mappedBy = "id.location")
+   @OneToMany(mappedBy = "id.location",cascade = CascadeType.ALL, orphanRemoval = true )
    private List<DailyWeather> listDailyWeather = new ArrayList<>();
    
    private boolean enabled;

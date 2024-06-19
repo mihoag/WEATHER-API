@@ -24,6 +24,7 @@ public class DailyWeatherListDTO extends RepresentationModel<DailyWeatherListDTO
 		this.location = location;
 		this.dailyWeatherlistDTO = dailyWeatherlistDTO;
 	}
+	
 	public String getLocation() {
 		return location;
 	}

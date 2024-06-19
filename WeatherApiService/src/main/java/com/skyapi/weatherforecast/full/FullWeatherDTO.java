@@ -17,6 +17,7 @@ public class FullWeatherDTO {
 	
 	@JsonInclude(value = JsonInclude.Include.CUSTOM,  valueFilter = RealtimeWeatherFieldFilter.class)
 	@Valid
+	@JsonProperty("realtime_weather")
 	private RealtimeWeatherDTO realtimeWeather = new RealtimeWeatherDTO();
 	
 	@JsonProperty("hourly_forecast")

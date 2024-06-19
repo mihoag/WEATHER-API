@@ -91,4 +91,13 @@ public class RealtimeWeatherDTO extends RepresentationModel<RealtimeWeatherDTO>{
 	public void setLocation(String location) {
 		this.location = location;
 	}
+
+	@Override
+	public String toString() {
+		return "RealtimeWeatherDTO [location=" + location + ", temperature=" + temperature + ", humidity=" + humidity
+				+ ", precipitation=" + precipitation + ", windSpeed=" + windSpeed + ", status=" + status
+				+ ", lastUpdated=" + lastUpdated + "]";
+	}
+	
+	
 }
