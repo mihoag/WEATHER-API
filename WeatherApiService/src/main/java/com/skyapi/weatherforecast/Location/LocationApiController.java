@@ -8,6 +8,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.PagedModel;
+import org.springframework.hateoas.PagedModel.PageMetadata;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,14 +22,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.daily.DailyWeatherApiController;
+import com.skyapi.weatherforecast.exception_handler.BadRequestException;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
 import com.skyapi.weatherforecast.realtime.RealtimeWeatherController;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/v1/locations")
@@ -39,6 +48,7 @@ public class LocationApiController {
 		this.service = service;
 		this.modelMapper = modelMapper;
 	}
+	
 	@PostMapping
 	public ResponseEntity<LocationDTO> addLocation(@RequestBody @Valid LocationDTO dto)
 	{
@@ -47,19 +57,46 @@ public class LocationApiController {
 		return ResponseEntity.created(uri).body(addLinks2Item(entity2DTO(addedLocation)));
 	}
 	
-	@GetMapping
-	public ResponseEntity<?> listCollections()
+	
+	
+	@Deprecated
+	ResponseEntity<?> listLocations()
 	{
 		List<Location> lsLocations = service.list();
 		if(lsLocations.isEmpty())
 		{
 			return ResponseEntity.noContent().build();
 		}
-		
-		
-		
 		return ResponseEntity.ok(listEntity2DTO(lsLocations));
 	}
+	
+	@GetMapping 
+	public ResponseEntity<?> listLocations(
+			@RequestParam(value = "page", required = false, defaultValue = "1") 
+			@Min(value = 1)	Integer pageNum,
+            @RequestParam(value = "size", required = false, defaultValue = "5") 
+			@Min(value = 2) @Max(value = 20) Integer pageSize,
+            @RequestParam(value = "sort", required = false, defaultValue = "code") String sortOption,
+            @RequestParam(value = "enabled", required = false, defaultValue = "") String enabled,
+            @RequestParam(value = "region_name", required = false, defaultValue = "") String regionName,
+            @RequestParam(value = "country_code", required = false, defaultValue = "") String countryCode
+			) throws BadRequestException
+	{
+		
+	    Page<Location> locationPage = service.listPerPage(pageNum, pageSize, sortOption);
+		List<Location> lsLocations = locationPage.getContent();
+		
+		//System.out.println(lsLocations.size());
+		if(lsLocations.isEmpty())
+		{
+			return ResponseEntity.noContent().build();
+		}
+		List<LocationDTO> locationDtos = listEntity2DTO(lsLocations);
+		
+		return ResponseEntity.ok(addPageMetadataAndLinks2Collection(locationDtos, locationPage, sortOption, enabled, regionName, countryCode));
+	}
+	
+	
 	 
 	@GetMapping("/{code}")
 	public ResponseEntity<?> getLocation(@PathVariable("code") String code)
@@ -81,6 +118,69 @@ public class LocationApiController {
 		service.delete(code);
 		return ResponseEntity.noContent().build();
 	}
+	
+	
+	private CollectionModel<LocationDTO> addPageMetadataAndLinks2Collection(
+			List<LocationDTO> listDTO, Page<Location> pageInfo, String sortField,
+			String enabled, String regionName, String countryCode) throws BadRequestException {
+		
+		String actualEnabled = "".equals(enabled) ? null : enabled;
+		String actualRegionName = "".equals(regionName) ? null : regionName;
+		String actualCountryCode = "".equals(countryCode) ? null : countryCode;
+		
+				 
+		// add self link to each individual item
+		for (LocationDTO dto : listDTO) {
+			dto.add(linkTo(methodOn(LocationApiController.class).getLocation(dto.getCode())).withSelfRel());
+		}
+		
+		int pageSize = pageInfo.getSize();
+		int pageNum = pageInfo.getNumber() + 1;
+		long totalElements = pageInfo.getTotalElements();
+		int totalPages = pageInfo.getTotalPages();
+		
+		PageMetadata pageMetadata = new PageMetadata(pageSize, pageNum, totalElements);
+		
+		CollectionModel<LocationDTO> collectionModel = PagedModel.of(listDTO, pageMetadata);
+		
+		// add self link to collection
+		collectionModel.add(linkTo(methodOn(LocationApiController.class)
+								.listLocations(pageNum, pageSize, sortField, actualEnabled, actualRegionName, actualCountryCode))
+									.withSelfRel());
+		
+		if (pageNum > 1) {
+			// add link to first page if the current page is not the first one
+			collectionModel.add(
+					linkTo(methodOn(LocationApiController.class)
+							.listLocations(1, pageSize, sortField, actualEnabled, actualRegionName, actualCountryCode))
+								.withRel(IanaLinkRelations.FIRST));
+			
+			// add link to the previous page if the current page is not the first one
+			collectionModel.add(
+					linkTo(methodOn(LocationApiController.class)
+							.listLocations(pageNum - 1, pageSize, sortField, actualEnabled, actualRegionName, actualCountryCode))
+								.withRel(IanaLinkRelations.PREV));			
+		}	
+		
+		if (pageNum < totalPages) {
+			// add link to next page if the current page is not the last one
+			collectionModel.add(
+					linkTo(methodOn(LocationApiController.class)
+							.listLocations(pageNum + 1, pageSize, sortField, actualEnabled, actualRegionName, actualCountryCode))
+								.withRel(IanaLinkRelations.NEXT));			
+			
+			// add link to last page if the current page is not the last one
+			collectionModel.add(
+					linkTo(methodOn(LocationApiController.class)
+							.listLocations(totalPages, pageSize, sortField, actualEnabled, actualRegionName, actualCountryCode))
+								.withRel(IanaLinkRelations.LAST));					
+		}
+		
+		
+		return collectionModel;
+		
+	}
+	
 	
 	public LocationDTO entity2DTO(Location location)
 	{

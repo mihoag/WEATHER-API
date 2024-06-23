@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.common.RealtimeWeather;
 import com.skyapi.weatherforecast.common_service.GeolocationService;
+import com.skyapi.weatherforecast.daily.DailyWeatherApiController;
+import com.skyapi.weatherforecast.full.FullWeatherApiController;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
 import com.skyapi.weatherforecast.utility.CommonUtility;
 
@@ -80,6 +82,17 @@ public class RealtimeWeatherController {
 	private RealtimeWeatherDTO addLinksByIP(RealtimeWeatherDTO dto) {
 		
 		dto.add(linkTo(methodOn(RealtimeWeatherController.class).getRealtimeWeatherByIPAddress(null)).withSelfRel());
+		dto.add(linkTo(
+				methodOn(HourlyWeatherApiController.class).listHourlyForecastByIPAddress(null))
+					.withRel("hourly_forecast"));
+		
+		dto.add(linkTo(
+				methodOn(DailyWeatherApiController.class).listDailyForecastByIPAddress(null))
+					.withRel("daily_forecast"));
+		
+		dto.add(linkTo(
+				methodOn(FullWeatherApiController.class).getFullWeatherByIPAddress(null))
+					.withRel("full_forecast"));
 		return dto;
 	}
 	
@@ -90,8 +103,16 @@ public class RealtimeWeatherController {
 							.withSelfRel());
 		
 		dto.add(linkTo(
-				methodOn(HourlyWeatherApiController.class).listHourlyForecastByIPAddress(null))
+				methodOn(HourlyWeatherApiController.class).listHourlyForecastByLocationCode(locationCode, null))
 					.withRel("hourly_forecast"));
+		
+		dto.add(linkTo(
+				methodOn(DailyWeatherApiController.class).listDailyForecastByLocationCode(locationCode))
+					.withRel("daily_forecast"));
+		
+		dto.add(linkTo(
+				methodOn(FullWeatherApiController.class).getFullWeatherLocation(locationCode))
+					.withRel("full_forecast"));
 		return dto;
 	}	
 	

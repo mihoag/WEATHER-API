@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skyapi.weatherforecast.common.HourlyWeather;
 import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.common_service.GeolocationService;
+import com.skyapi.weatherforecast.daily.DailyWeatherApiController;
 import com.skyapi.weatherforecast.exception_handler.BadRequestException;
+import com.skyapi.weatherforecast.full.FullWeatherApiController;
 import com.skyapi.weatherforecast.realtime.RealtimeWeatherController;
 import com.skyapi.weatherforecast.utility.CommonUtility;
 
@@ -37,7 +39,7 @@ public class HourlyWeatherApiController {
 	private GeolocationService locationService;
 	private ModelMapper modelMapper;
 	
-	@Autowired
+
 	public HourlyWeatherApiController(HourlyWeatherService hourlyWeatherService, GeolocationService locationService,
 			ModelMapper modelMapper) {
 		super();
@@ -124,8 +126,16 @@ public class HourlyWeatherApiController {
 		
 		dto.add(linkTo(
 					methodOn(RealtimeWeatherController.class).getRealtimeWeatherByIPAddress(null))
-						.withRel("realtime_weather"));	
+						.withRel("realtime"));	
+		dto.add(linkTo(
+				methodOn(DailyWeatherApiController.class).listDailyForecastByIPAddress(null))
+					.withRel("daily_forecast"));
+		
+		dto.add(linkTo(
+				methodOn(FullWeatherApiController.class).getFullWeatherByIPAddress(null))
+					.withRel("full_forecast"));
 		return dto;
+		
 	}	
      
     private HourlyWeatherListDTO addLinksByLocation(HourlyWeatherListDTO dto, String locationCode) {
@@ -136,12 +146,20 @@ public class HourlyWeatherApiController {
 		
 		dto.add(linkTo(
 					methodOn(RealtimeWeatherController.class).getRealtimeWeatherByLocationCode(locationCode))
-						.withRel("realtime_weather"));
+						.withRel("realtime"));
+		
+		dto.add(linkTo(
+				methodOn(DailyWeatherApiController.class).listDailyForecastByLocationCode(locationCode))
+					.withRel("daily_forecast"));
+		
+		dto.add(linkTo(
+				methodOn(FullWeatherApiController.class).getFullWeatherLocation(locationCode))
+					.withRel("full_forecast"));
 		
 		return dto;
-	}	
-	
-	
+	}
+    
+   
 	private List<HourlyWeather> listDTO2ListEntity(List<HourlyWeatherDTO> listDTO) {
 		List<HourlyWeather> listEntity = new ArrayList<>();
 		
@@ -167,9 +185,4 @@ public class HourlyWeatherApiController {
 		return listDTO;
 		
 	}
-	
-	
-	
-	
-    
 }

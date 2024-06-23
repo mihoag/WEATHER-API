@@ -5,6 +5,9 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.skyapi.weatherforecast.common.DailyWeather;
 import com.skyapi.weatherforecast.common.HourlyWeather;
 import com.skyapi.weatherforecast.common.Location;
@@ -42,10 +45,12 @@ public class AppConfig {
 				(dest, value) ->	dest.getId().setHourOfDay(value != null ? (int) value : 0));
 	}
 	
+	
 	private void configureMappingForFullWeather(ModelMapper mapper) {
 		mapper.typeMap(Location.class, FullWeatherDTO.class)
 			.addMapping(src -> src.toString(), FullWeatherDTO::setLocation);
 	}
+	
 	
 	private void configureMappingForDailyWeather(ModelMapper mapper)
 	{
@@ -57,6 +62,15 @@ public class AppConfig {
 		.addMapping(src -> src.getDayOfMonth(), (des, value)-> des.getId().setDayOfMonth(value != null ? (int) value : 0))
         .addMapping(src -> src.getMonth(), (des, value) -> des.getId().setMonth(value != null ? (int) value : 0));
 	}
+	 @Bean
+	 public ObjectMapper objectMapper() {
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        
+	        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+	        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+	        
+	        return objectMapper;
+	 }
 	
 	
 }

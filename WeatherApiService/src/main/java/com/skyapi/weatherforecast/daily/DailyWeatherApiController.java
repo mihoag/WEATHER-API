@@ -22,6 +22,7 @@ import com.skyapi.weatherforecast.common.HourlyWeather;
 import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.common_service.GeolocationService;
 import com.skyapi.weatherforecast.exception_handler.BadRequestException;
+import com.skyapi.weatherforecast.full.FullWeatherApiController;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherDTO;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherListDTO;
@@ -123,7 +124,11 @@ public class DailyWeatherApiController {
 		
 		dto.add(linkTo(
 					methodOn(RealtimeWeatherController.class).getRealtimeWeatherByIPAddress(null))
-						.withRel("realtime_weather"));	
+						.withRel("realtime"));
+		dto.add(linkTo(
+				methodOn(FullWeatherApiController.class).getFullWeatherByIPAddress(null))
+					.withRel("full_forecast"));
+		
 		return dto;
 	}	
      
@@ -136,6 +141,10 @@ public class DailyWeatherApiController {
 		dto.add(linkTo(
 						methodOn(HourlyWeatherApiController.class).listHourlyForecastByLocationCode(locationCode, null))
 							.withRel("hourly_forecast"));
+		
+		dto.add(linkTo(
+				methodOn(FullWeatherApiController.class).getFullWeatherLocation(null))
+					.withRel("full_forecast"));
 		
 		dto.add(linkTo(
 					methodOn(RealtimeWeatherController.class).getRealtimeWeatherByLocationCode(locationCode))
