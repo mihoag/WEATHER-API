@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skyapi.weatherforecast.common.RealtimeWeather;
 import com.skyapi.weatherforecast.daily.DailyWeatherApiController;
+import com.skyapi.weatherforecast.exception_handler.BadRequestException;
 import com.skyapi.weatherforecast.full.FullWeatherApiController;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherApiController;
 import com.skyapi.weatherforecast.location.LocationApiController;
@@ -19,7 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class MainController {
       
 	@GetMapping("/")
-	public ResponseEntity<?> getBaseUrl()
+	public ResponseEntity<?> getBaseUrl() throws BadRequestException
 	{
 		RootEntity rootEntity = new RootEntity();
 		
