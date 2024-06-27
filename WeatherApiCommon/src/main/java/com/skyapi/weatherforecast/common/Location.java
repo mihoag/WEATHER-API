@@ -201,14 +201,14 @@ public class Location {
 	 this.listDailyWeather = listDailyWeather;
    }
 
-public Location(String code, String cityName, String countryName, String regionName, String countryCode,
+   public Location(String code, String cityName, String countryName, String regionName, String countryCode,
 		boolean enabled) {
-	super();
-	this.code = code;
-	this.cityName = cityName;
-	this.countryName = countryName;
-	this.regionName = regionName;
-	this.countryCode = countryCode;
-	this.enabled = enabled;
+	 super();
+	 this.code = code;
+	 this.cityName = cityName;
+	 this.countryName = countryName;
+	 this.regionName = regionName;
+	 this.countryCode = countryCode;
+	 this.enabled = enabled;
 }
 }

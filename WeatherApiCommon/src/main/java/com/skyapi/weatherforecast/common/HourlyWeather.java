@@ -80,4 +80,31 @@ public class HourlyWeather {
 		return "HourlyWeather [id=" + id + ", temperature=" + temperature + ", precipitation=" + precipitation
 				+ ", status=" + status + "]";
 	}
+	
+	public HourlyWeather id(Location location, int hour)
+	{
+		HourlyWeatherId id = new HourlyWeatherId(hour, location);
+		setId(id);
+		return this;
+	}
+	
+	public HourlyWeather temperature(int temp)
+	{
+		setTemperature(temp);
+		return this;
+	}
+	
+	public HourlyWeather precipitation(int precipitation)
+	{
+		setPrecipitation(precipitation);
+		return this;
+	}
+	
+	public HourlyWeather status(String status)
+	{
+		setStatus(status);
+		return this;
+	}
+	
+	
 }

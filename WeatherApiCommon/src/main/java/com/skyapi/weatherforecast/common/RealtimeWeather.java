@@ -36,11 +36,11 @@ public class RealtimeWeather {
   @MapsId
   private Location location;
 
-public RealtimeWeather() {
+  public RealtimeWeather() {
 	// TODO Auto-generated constructor stub
-}
+  }
 
-public RealtimeWeather(String locationCode, int temperature, int humidity, int precipitation, int windSpeed,
+  public RealtimeWeather(String locationCode, int temperature, int humidity, int precipitation, int windSpeed,
 		String status, Date lastUpdated, Location location) {
 	super();
 	this.locationCode = locationCode;
@@ -51,71 +51,71 @@ public RealtimeWeather(String locationCode, int temperature, int humidity, int p
 	this.status = status;
 	this.lastUpdated = lastUpdated;
 	this.location = location;
-}
+  }
 
-public String getLocationCode() {
+  public String getLocationCode() {
 	return locationCode;
-}
+  }
 
-public void setLocationCode(String locationCode) {
+  public void setLocationCode(String locationCode) {
 	this.locationCode = locationCode;
-}
+  }
 
-public int getTemperature() {
+  public int getTemperature() {
 	return temperature;
-}
+  }
 
-public void setTemperature(int temperature) {
+  public void setTemperature(int temperature) {
 	this.temperature = temperature;
-}
+  }
 
-public int getHumidity() {
+  public int getHumidity() {
 	return humidity;
-}
+  }
 
-public void setHumidity(int humidity) {
+  public void setHumidity(int humidity) {
 	this.humidity = humidity;
-}
+  }
 
-public int getPrecipitation() {
+  public int getPrecipitation() {
 	return precipitation;
-}
+  }
 
-public void setPrecipitation(int precipitation) {
-	this.precipitation = precipitation;
-}
+  public void setPrecipitation(int precipitation) {
+	 this.precipitation = precipitation; 
+  }
 
-public int getWindSpeed() {
-	return windSpeed;
-}
+  public int getWindSpeed() {
+	 return windSpeed;
+  }
 
-public void setWindSpeed(int windSpeed) {
-	this.windSpeed = windSpeed;
-}
+  public void setWindSpeed(int windSpeed) {
+	 this.windSpeed = windSpeed;
+  }
 
-public String getStatus() {
+  public String getStatus() {
 	return status;
-}
+  }
 
-public void setStatus(String status) {
-	this.status = status;
-}
+  public void setStatus(String status) {
+	 this.status = status;
+  }
 
-public Date getLastUpdated() {
-	return lastUpdated;
-}
+  public Date getLastUpdated() {
+	 return lastUpdated;
+  }
 
-public void setLastUpdated(Date lastUpdated) {
-	this.lastUpdated = lastUpdated;
-}
+  public void setLastUpdated(Date lastUpdated) {
+	 this.lastUpdated = lastUpdated;
+  }
 
-public Location getLocation() {
-	return location;
-}
+  public Location getLocation() {
+	 return location;
+  }
 
-public void setLocation(Location location) {
-	this.location = location;
-}
+  public void setLocation(Location location) {
+	 this.location = location;
+  }
 
 @Override
 public int hashCode() {
@@ -140,4 +140,6 @@ public String toString() {
 			+ ", precipitation=" + precipitation + ", windSpeed=" + windSpeed + ", status=" + status + ", lastUpdated="
 			+ lastUpdated + ", location=" + location + "]";
 }  
+
+  
 }

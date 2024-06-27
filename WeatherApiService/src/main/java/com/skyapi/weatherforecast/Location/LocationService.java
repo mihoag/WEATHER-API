@@ -1,6 +1,7 @@
 package com.skyapi.weatherforecast.location;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,8 @@ public class LocationService extends AbstractLocationService{
 	   return repo.findUntrashed();
    }
    
+   
+   @Deprecated
    public Page<Location> listPerPage(Integer pageNum, Integer pageSize, String sortField)
    {
 	   Sort sort = Sort.by(sortField).ascending();
@@ -41,6 +44,39 @@ public class LocationService extends AbstractLocationService{
 	   return repo.findUntrashed(pageable);
    }
    
+   public Page<Location> listByPage(int pageNum, int pageSize, String sortOption, Map<String, Object> filterFields) {
+		Sort sort = createMultipleSorts(sortOption);
+		
+		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
+		
+		return repo.listWithFilter(pageable, filterFields);
+	}
+   
+   private Sort createMultipleSorts(String sortOption) {
+		String[] sortFields = sortOption.split(",");
+		
+		Sort sort = null;
+		
+		if (sortFields.length > 1) { // sorted by multiple fields
+			
+			sort = createSingleSort(sortFields[0]);
+			
+			for (int i = 1; i < sortFields.length; i++) {
+				
+				sort = sort.and(createSingleSort(sortFields[i]));
+			}
+			
+		} else { // sorted by a single field
+			sort = createSingleSort(sortOption);
+		}
+		return sort;
+	}	
+	
+	private Sort createSingleSort(String fieldName) {
+		String actualFieldName = fieldName.replace("-", "");
+		return fieldName.startsWith("-")
+					? Sort.by(actualFieldName).descending() : Sort.by(actualFieldName).ascending();		
+	}
    public Location update(Location locationInRequest)
    {
 	   String code = locationInRequest.getCode();

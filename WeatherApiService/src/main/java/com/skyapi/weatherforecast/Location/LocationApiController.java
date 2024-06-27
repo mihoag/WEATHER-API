@@ -2,7 +2,9 @@ package com.skyapi.weatherforecast.location;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -49,6 +51,15 @@ public class LocationApiController {
 		this.modelMapper = modelMapper;
 	}
 	
+	private Map<String, String> propertyMap = Map.of(
+			"code", "code",
+			"city_name", "cityName",
+			"region_name", "regionName",
+			"country_code", "countryCode",
+			"country_name", "countryName",
+			"enabled", "enabled"
+		);
+	
 	@PostMapping
 	public ResponseEntity<LocationDTO> addLocation(@RequestBody @Valid LocationDTO dto)
 	{
@@ -82,9 +93,10 @@ public class LocationApiController {
             @RequestParam(value = "country_code", required = false, defaultValue = "") String countryCode
 			) throws BadRequestException
 	{
-		
-	    Page<Location> locationPage = service.listPerPage(pageNum, pageSize, sortOption);
-		List<Location> lsLocations = locationPage.getContent();
+		sortOption = validateSortOption(sortOption);
+	    Map<String, Object> filterFields = getFilterFields(enabled, regionName, countryCode);		
+		Page<Location> page = service.listByPage(pageNum - 1, pageSize, sortOption, filterFields);
+		List<Location> lsLocations = page.getContent();
 		
 		//System.out.println(lsLocations.size());
 		if(lsLocations.isEmpty())
@@ -93,10 +105,54 @@ public class LocationApiController {
 		}
 		List<LocationDTO> locationDtos = listEntity2DTO(lsLocations);
 		
-		return ResponseEntity.ok(addPageMetadataAndLinks2Collection(locationDtos, locationPage, sortOption, enabled, regionName, countryCode));
+		return ResponseEntity.ok(addPageMetadataAndLinks2Collection(locationDtos, page, sortOption, enabled, regionName, countryCode));
 	}
 	
+	private Map<String, Object> getFilterFields(String enabled, String regionName, String countryCode) {
+		Map<String, Object> filterFields = new HashMap<>();
+		
+		if (!"".equals(enabled)) {
+			filterFields.put("enabled", Boolean.parseBoolean(enabled));
+		}
+		
+		if (!"".equals(regionName)) {
+			filterFields.put("regionName", regionName);
+		}		
+		
+		if (!"".equals(countryCode)) {
+			filterFields.put("countryCode", countryCode);
+		}
+		return filterFields;
+	}
 	
+	private String validateSortOption(String sortOption) throws BadRequestException {
+		String translatedSortOption = sortOption;
+		
+		String[] sortFields = sortOption.split(",");
+		
+		
+		if (sortFields.length > 1) { // sorted by multiple fields
+			
+			for (int i = 0; i < sortFields.length; i++) {
+				String actualFieldName = sortFields[i].replace("-", "");
+				
+				if (!propertyMap.containsKey(actualFieldName)) {
+					throw new BadRequestException("invalid sort field: " + actualFieldName);
+				}
+				
+				translatedSortOption = translatedSortOption.replace(actualFieldName, propertyMap.get(actualFieldName));
+			}
+			
+		} else { // sorted by a single field
+			String actualFieldName = sortOption.replace("-", "");
+			if (!propertyMap.containsKey(actualFieldName)) {
+				throw new BadRequestException("invalid sort field: " + actualFieldName);
+			}
+			
+			translatedSortOption = translatedSortOption.replace(actualFieldName, propertyMap.get(actualFieldName));
+		}
+		return translatedSortOption;
+	}
 	 
 	@GetMapping("/{code}")
 	public ResponseEntity<?> getLocation(@PathVariable("code") String code)
