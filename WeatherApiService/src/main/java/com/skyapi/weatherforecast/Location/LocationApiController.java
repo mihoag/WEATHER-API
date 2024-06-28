@@ -63,11 +63,17 @@ public class LocationApiController {
 	@PostMapping
 	public ResponseEntity<LocationDTO> addLocation(@RequestBody @Valid LocationDTO dto)
 	{
-		Location addedLocation = service.add(DTO2Entity(dto));
+		
+		//System.out.println(dto.getCode() +  " " + dto.getCityName() + " " + dto.getCountryCode() + " " + dto.getCountryName() + " " + dto.getRegionName());
+		Location location = DTO2Entity(dto);
+		
+		System.out.println(location.getCode()+ " " + location.getCityName() + " " + location.getCountryCode() + " " + location.getCountryName() + " " + location.getRegionName());
+		Location addedLocation = service.add(location);
+		
+		System.out.println(addedLocation.getCode()+ " " + addedLocation.getCityName() + " " + addedLocation.getCountryCode() + " " + addedLocation.getCountryName() + " " + addedLocation.getRegionName());
 		URI uri = URI.create("/v1/locations/" + addedLocation.getCode());
 		return ResponseEntity.created(uri).body(addLinks2Item(entity2DTO(addedLocation)));
 	}
-	
 	
 	
 	@Deprecated
@@ -271,7 +277,7 @@ public class LocationApiController {
 		dto.add(linkTo(
 				methodOn(HourlyWeatherApiController.class).listHourlyForecastByLocationCode(dto.getCode(), null))
 					.withRel("hourly_forecast"));
-		dto.add(linkTo(
+		dto.add(linkTo(                                                                                                                                                                                                                                                                                                   
 				methodOn(DailyWeatherApiController.class).listDailyForecastByLocationCode(dto.getCode()))
 					.withRel("daily_forecast"));
 		return dto;

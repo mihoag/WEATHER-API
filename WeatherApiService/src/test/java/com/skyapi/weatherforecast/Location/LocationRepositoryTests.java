@@ -155,7 +155,6 @@ public class LocationRepositoryTests {
 	    assertThat(updatedLocation.getRealtimeWeather().getLocationCode()).isEqualTo(code);
 	}
 	
-	
 	@Test
 	public void testAddHourlyWeatherData()
 	{
@@ -231,6 +230,8 @@ public class LocationRepositoryTests {
 		
 		assertThat(updatedLocation.getListDailyWeather()).isNotEmpty();
 	}
+	
+
 	
 	
 }
