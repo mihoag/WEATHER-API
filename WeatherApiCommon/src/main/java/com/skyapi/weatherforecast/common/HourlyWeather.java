@@ -88,6 +88,8 @@ public class HourlyWeather {
 		return this;
 	}
 	
+	
+	
 	public HourlyWeather temperature(int temp)
 	{
 		setTemperature(temp);
@@ -106,5 +108,15 @@ public class HourlyWeather {
 		return this;
 	}
 	
+	public HourlyWeather location(Location location)
+	{
+	   this.id.setLocation(location);
+	   return this;
+	}
 	
+	public HourlyWeather hourOfDay(int hour)
+	{
+		this.id.setHourOfDay(hour);
+		return this;
+	}
 }

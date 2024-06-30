@@ -1,8 +1,11 @@
 package com.skyapi.weatherforecast.HourlyWeatherTest;
 
-import java.util.List;
 
-import org.hibernate.internal.build.AllowSysOut;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -11,7 +14,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.skyapi.weatherforecast.common.HourlyWeather;
-import com.skyapi.weatherforecast.common.RealtimeWeather;
+import com.skyapi.weatherforecast.common.HourlyWeatherId;
+import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.hourly.HourlyWeatherRepository;
 
 @DataJpaTest
@@ -19,18 +23,62 @@ import com.skyapi.weatherforecast.hourly.HourlyWeatherRepository;
 @Rollback(false)
 public class HourlyWeatherRepositoryTest {
     
-	@Autowired
-	private HourlyWeatherRepository repo;
+	
+	@Autowired private HourlyWeatherRepository repo;
+	
+	@Test
+	public void testAdd() {
+		String locationCode = "MBMH_IN";
+		int hourOfDay = 12;
+		
+		Location location = new Location().code(locationCode);
+		
+		HourlyWeather forecast = new HourlyWeather()
+				.location(location)
+				.hourOfDay(hourOfDay)
+				.temperature(13)
+				.precipitation(70)
+				.status("Cloudy");
+		
+		HourlyWeather updatedForecast = repo.save(forecast);
+		
+		assertThat(updatedForecast.getId().getLocation().getCode()).isEqualTo(locationCode);
+		assertThat(updatedForecast.getId().getHourOfDay()).isEqualTo(hourOfDay);
+	}
 	
 	
 	@Test
-	public void testGet()
-	{
-	   	List<HourlyWeather> ls = repo.findByLocationCode("NYC_USA", 2);
-	   	for(HourlyWeather h : ls)
-	   	{
-	   		System.out.println(h);
-	   	}
+	public void testDelete() {
+		Location location = new Location().code("MBMH_IN");
+		
+		HourlyWeatherId id = new HourlyWeatherId(10, location);
+				
+		repo.deleteById(id);
+		
+		Optional<HourlyWeather> result = repo.findById(id);
+		assertThat(result).isNotPresent();
 	}
+	
+	
+	@Test
+	public void testFindByLocationCodeFound()
+	{
+		String locationCode = "NYC_USA";
+		int hourOfDay = 10;
+		
+		List<HourlyWeather> hourWeather = repo.findByLocationCode(locationCode, hourOfDay);
+		assertThat(hourWeather).isNotEmpty();
+	}
+	
+	@Test
+	public void testFindByLocationCodeNotFound()
+	{
+		String locationCode = "NYC_USS";
+		int hourOfDay = 10;
+		
+		List<HourlyWeather> hourWeather = repo.findByLocationCode(locationCode, hourOfDay);
+		assertThat(hourWeather).isEmpty();
+	}
+	
 	
 }

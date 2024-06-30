@@ -136,9 +136,7 @@ public class Location {
    public void setTrashed(boolean trashed) {
 	this.trashed = trashed;
    }
-
-
-
+   
    @Override
    public int hashCode() {
 	 return Objects.hash(code);
@@ -169,7 +167,7 @@ public class Location {
 	 setCountryCode(another.getCountryCode());
 	 setCountryName(another.getCountryName());
    }
-
+   
    public void copyAllFieldsFrom(Location another)
    {
 	 copyFieldsFrom(another);
@@ -210,5 +208,43 @@ public class Location {
 	 this.regionName = regionName;
 	 this.countryCode = countryCode;
 	 this.enabled = enabled;
-}
+  }
+   
+  public Location code(String code)
+  {
+	  setCode(code);
+	  return this;
+  }
+  
+  public Location cityName(String cityName)
+  {
+	  setCityName(cityName);
+	  return this;
+  }
+  
+  public Location countryName(String countryName)
+  {
+	  setCountryName(countryName);
+	  return this;
+  }
+  
+  public Location regionName(String regionName)
+  {
+	  setRegionName(regionName);
+	  return this;
+  }
+  
+  public Location countryCode(String countryCode)
+  {
+	  setCountryCode(countryCode);
+	  return this;
+  }
+  
+  public Location enabled(Boolean enabled)
+  {
+	  setEnabled(enabled);
+	  return this;
+  }
+  
+
 }
