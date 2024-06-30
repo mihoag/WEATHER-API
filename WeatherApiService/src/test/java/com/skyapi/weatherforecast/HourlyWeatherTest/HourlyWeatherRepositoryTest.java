@@ -79,6 +79,4 @@ public class HourlyWeatherRepositoryTest {
 		List<HourlyWeather> hourWeather = repo.findByLocationCode(locationCode, hourOfDay);
 		assertThat(hourWeather).isEmpty();
 	}
-	
-	
 }

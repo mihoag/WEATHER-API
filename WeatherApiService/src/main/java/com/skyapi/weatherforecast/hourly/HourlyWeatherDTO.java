@@ -55,6 +55,30 @@ public class HourlyWeatherDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public HourlyWeatherDTO hourOfDay(int hourOfDay)
+	{
+		setHourOfDay(hourOfDay);
+		return this;
+	}
+	
+	public HourlyWeatherDTO temperature(int temperature)
+	{
+		setTemperature(temperature);
+		return this;
+	}
+	
+	public HourlyWeatherDTO precipitation(int precipitation)
+	{
+		setPrecipitation(precipitation);
+		return this;
+	}
+	
+	public HourlyWeatherDTO status(String status)
+	{
+		setStatus(status);
+		return this;
+	}
 
 	@Override
 	public String toString() {
