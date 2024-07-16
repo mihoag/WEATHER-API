@@ -44,7 +44,7 @@ public class RealtimeWeatherController {
 		Location locationFromIP = locationService.getLocation(ipAddress);
 		RealtimeWeather realtimeWeather = realtimeWeatherService.getByLocation(locationFromIP);
 		
-		RealtimeWeatherDTO dto = modelMapper.map(realtimeWeather, RealtimeWeatherDTO.class);
+		RealtimeWeatherDTO dto = entity2DTO(realtimeWeather);
 		
 		return ResponseEntity.ok(addLinksByIP(dto));
 	}
@@ -115,5 +115,4 @@ public class RealtimeWeatherController {
 					.withRel("full_forecast"));
 		return dto;
 	}	
-	
 }

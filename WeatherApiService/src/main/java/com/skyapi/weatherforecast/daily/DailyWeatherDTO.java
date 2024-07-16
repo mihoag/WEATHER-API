@@ -98,5 +98,4 @@ public class DailyWeatherDTO  {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 }

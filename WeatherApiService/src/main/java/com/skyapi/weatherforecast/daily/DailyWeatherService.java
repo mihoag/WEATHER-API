@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skyapi.weatherforecast.common.DailyWeather;
-import com.skyapi.weatherforecast.common.HourlyWeather;
 import com.skyapi.weatherforecast.common.Location;
 import com.skyapi.weatherforecast.location.LocationNotFoundException;
 import com.skyapi.weatherforecast.location.LocationRepository;

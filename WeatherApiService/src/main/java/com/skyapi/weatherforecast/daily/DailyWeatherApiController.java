@@ -41,7 +41,7 @@ public class DailyWeatherApiController {
 	private GeolocationService locationService;
 	private ModelMapper modelMapper;
 	
-	@Autowired
+	
 	public DailyWeatherApiController(DailyWeatherService dailyWeatherService, GeolocationService locationService,
 			ModelMapper modelMapper) {
 		super();
@@ -99,8 +99,6 @@ public class DailyWeatherApiController {
 		if (listDTO.isEmpty()) {
 			throw new BadRequestException("Daily forecast data cannot be empty");
 		}
-		
-		listDTO.forEach(System.out::println);
 		
 		List<DailyWeather> listDailyWeather = listDTO2ListEntity(listDTO);
 		

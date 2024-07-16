@@ -62,13 +62,13 @@ public class AppConfig {
 		.addMapping(src -> src.getDayOfMonth(), (des, value)-> des.getId().setDayOfMonth(value != null ? (int) value : 0))
         .addMapping(src -> src.getMonth(), (des, value) -> des.getId().setMonth(value != null ? (int) value : 0));
 	}
+	
 	 @Bean
 	 public ObjectMapper objectMapper() {
 	        ObjectMapper objectMapper = new ObjectMapper();
 	        
 	        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 	        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-	        
 	        return objectMapper;
 	 }
 	

@@ -181,7 +181,6 @@ public class HourlyWeatherApiController {
 			HourlyWeatherDTO dto = modelMapper.map(hourlyWeather, HourlyWeatherDTO.class);
 			listDTO.addWeatherHourlyDTO(dto);
 		});
-		
 		return listDTO;
 		
 	}

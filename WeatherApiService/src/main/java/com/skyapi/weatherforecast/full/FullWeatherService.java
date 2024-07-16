@@ -40,8 +40,6 @@ public class FullWeatherService extends AbstractLocationService {
 			throw new LocationNotFoundException(locationCode);
 		}
 		
-		
-		
 		setLocationForWeatherData(locationInRequest, locationInDB);
 		
 		saveRealtimeWeatherIfNotExistBefore(locationInRequest, locationInDB);

@@ -109,8 +109,8 @@ public class LocationApiController {
 		{
 			return ResponseEntity.noContent().build();
 		}
-		List<LocationDTO> locationDtos = listEntity2DTO(lsLocations);
 		
+		List<LocationDTO> locationDtos = listEntity2DTO(lsLocations);
 		return ResponseEntity.ok(addPageMetadataAndLinks2Collection(locationDtos, page, sortOption, enabled, regionName, countryCode));
 	}
 	
@@ -243,7 +243,6 @@ public class LocationApiController {
 		
 	}
 	
-	
 	public LocationDTO entity2DTO(Location location)
 	{
 	    return this.modelMapper.map(location,LocationDTO.class);	
@@ -257,9 +256,8 @@ public class LocationApiController {
 	public List<LocationDTO> listEntity2DTO(List<Location> lsLocation)
 	{
 		List<LocationDTO> listDTO = new ArrayList<>();
-		
 		lsLocation.forEach(location -> {
-		   listDTO.add(addLinks2Item(entity2DTO(location)));
+		   listDTO.add(entity2DTO(location));
 		});
 		return listDTO;
 	}

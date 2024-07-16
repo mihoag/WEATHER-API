@@ -13,7 +13,7 @@ import com.skyapi.weatherforecast.location.LocationRepository;
 @Service
 public class RealtimeWeatherService {
    private RealtimeWeatherRepository realtimeWeatherRepo;
-   private LocationRepository  locationRepo;
+   private LocationRepository locationRepo;
    public RealtimeWeatherService() {
 	// TODO Auto-generated constructor stub
    }
