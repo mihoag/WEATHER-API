@@ -19,34 +19,31 @@ public class role {
     
     
     @NotNull(message = "Role name is not null")
-    private String nane;
+    private String name;
 
 
 	public role() {
 		// TODO Auto-generated constructor stub
 	}
-	public role(Integer id, @NotNull(message = "Role name is not null") String nane) {
-		super();
-		this.id = id;
-		this.nane = nane;
-	}
+	
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getNane() {
-		return nane;
+
+	public String getName() {
+		return name;
 	}
-	public void setNane(String nane) {
-		this.nane = nane;
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public role name(String name)
 	{
-		setNane(name);
+		setName(name);
 		return this;
 	}
-   
 }

@@ -31,4 +31,18 @@ public class RoleRepositoryTest {
     	assertThat(lsRoles).isNotEmpty();
     	assertThat(lsRoles.size()).isEqualTo(4);
     }
+    
+    @Test
+    public void getRoleSuccess()
+    {
+    	role role1 = repo.getRolesByName("READ"); 
+		role role2 = repo.getRolesByName("ADD");
+		role role3 = repo.getRolesByName("UPDATE");
+		role role4 = repo.getRolesByName("DELETE");
+		
+	    assertThat(role1.getName()).isEqualTo("READ");
+	    assertThat(role2.getName()).isEqualTo("ADD");
+	    assertThat(role3.getName()).isEqualTo("UPDATE");
+	    assertThat(role4.getName()).isEqualTo("DELETE");
+    }
 }
