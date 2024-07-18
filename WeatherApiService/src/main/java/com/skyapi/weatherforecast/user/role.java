@@ -43,5 +43,10 @@ public class role {
 		this.nane = nane;
 	}
 	
+	public role name(String name)
+	{
+		setNane(name);
+		return this;
+	}
    
 }
