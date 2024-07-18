@@ -15,10 +15,25 @@ public class DailyWeather  {
 	private DailyWeatherId id = new DailyWeatherId();
 	private int minTemp;
 	private int maxTemp;
-	private int precipitation;
-	
+	private int precipitation;	
 	@Column(length = 50)
 	private String status;
+	
+	
+
+	public DailyWeather() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public DailyWeather(DailyWeatherId id, int minTemp, int maxTemp, int precipitation, String status) {
+		super();
+		this.id = id;
+		this.minTemp = minTemp;
+		this.maxTemp = maxTemp;
+		this.precipitation = precipitation;
+		this.status = status;
+	}
+
 
 	public DailyWeatherId getId() {
 		return id;

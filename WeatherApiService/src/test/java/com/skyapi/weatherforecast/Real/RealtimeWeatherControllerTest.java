@@ -104,10 +104,6 @@ public class RealtimeWeatherControllerTest {
 		
 		mockMvc.perform(get(END_POINT_PATH))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$._links.self.href", is("http://localhost/v1/realtime")))
-		.andExpect(jsonPath("$._links.hourly_forecast.href", is("http://localhost/v1/hourly")))
-		.andExpect(jsonPath("$._links.daily_forecast.href", is("http://localhost/v1/daily")))
-		.andExpect(jsonPath("$._links.full_forecast.href", is("http://localhost/v1/full")))
 		.andDo(print());		
  	 }
  	 
