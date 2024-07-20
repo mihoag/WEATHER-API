@@ -70,4 +70,30 @@ public class JwtUtility {
 			throw new JwtValidationException("Access token is not supported", ex);
 		}
 	}
+
+	public String getIssuerName() {
+		return issuerName;
+	}
+
+	public void setIssuerName(String issuerName) {
+		this.issuerName = issuerName;
+	}
+
+	public String getSecretKey() {
+		return secretKey;
+	}
+
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
+	}
+
+	public int getAccessTokenExpiration() {
+		return accessTokenExpiration;
+	}
+
+	public void setAccessTokenExpiration(int accessTokenExpiration) {
+		this.accessTokenExpiration = accessTokenExpiration;
+	}
+	
+	
 }
