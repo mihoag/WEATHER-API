@@ -64,6 +64,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 					
 					setAuthenticationContext(userDetails, request);
 					
+					LOGGER.info("Next filter");
 					filterChain.doFilter(request, response);
 					
 					clearAuthenticationContext();
@@ -100,13 +101,14 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 		user.setId(userId);
 		user.setUsername(username);
 		
-		List<Map<Integer, String>> roles = (List<Map<Integer, String>>) claims.get("roles");
+		List<Map<String, Object>> roles = (List<Map<String, Object>>) claims.get("roles");
 		
-	    for(Map<Integer, String> mapRole : roles)
+	    for(Map<String, Object> mapRole : roles)
 	    {
-	    	LOGGER.info( mapRole.get("name"));
-	        role role = new role(mapRole.get("name"));
-	        user.addRoles(role);
+	    	Integer id = (Integer) mapRole.get("id");
+	    	String name = (String) mapRole.get("name");
+	    	role role = new role(id, name);
+	    	user.addRoles(role);
 	    }
 		return new CustomUserDetails(user);
 	}

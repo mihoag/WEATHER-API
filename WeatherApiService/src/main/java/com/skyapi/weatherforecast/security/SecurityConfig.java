@@ -57,10 +57,10 @@ public class SecurityConfig {
 				
 				auth -> 
 				auth.requestMatchers("/api/oauth/**").permitAll().requestMatchers("/").permitAll()
-				.requestMatchers(HttpMethod.GET, "/v1/**").permitAll()
-				.requestMatchers(HttpMethod.POST,  "/v1/**").permitAll()
-				.requestMatchers(HttpMethod.PUT,  "/v1/**").permitAll()
-				.requestMatchers(HttpMethod.DELETE,  "/v1/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/v1/**").hasAnyAuthority("READ")
+				.requestMatchers(HttpMethod.POST,  "/v1/**").hasAnyAuthority("ADD")
+				.requestMatchers(HttpMethod.PUT,  "/v1/**").hasAnyAuthority("UPDATE")
+				.requestMatchers(HttpMethod.DELETE,  "/v1/**").hasAnyAuthority("DELETE")
 				.anyRequest()
 				.authenticated()
 			)
