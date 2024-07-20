@@ -3,6 +3,7 @@ package com.skyapi.weatherforecast.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -53,7 +54,15 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		http.authorizeHttpRequests(
-				auth -> auth.anyRequest().authenticated()
+				
+				auth -> 
+				auth.requestMatchers("/api/oauth/**").permitAll().requestMatchers("/").permitAll()
+				.requestMatchers(HttpMethod.GET, "/v1/**").permitAll()
+				.requestMatchers(HttpMethod.POST,  "/v1/**").permitAll()
+				.requestMatchers(HttpMethod.PUT,  "/v1/**").permitAll()
+				.requestMatchers(HttpMethod.DELETE,  "/v1/**").permitAll()
+				.anyRequest()
+				.authenticated()
 			)
 			.csrf(csrf -> csrf.disable())
 			.exceptionHandling(exh -> exh.authenticationEntryPoint(

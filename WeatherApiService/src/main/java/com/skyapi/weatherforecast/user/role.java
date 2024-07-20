@@ -26,6 +26,19 @@ public class role {
 		// TODO Auto-generated constructor stub
 	}
 	
+	
+	
+	public role(Integer id, @NotNull(message = "Role name is not null") String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
+   public role(String name)
+   {
+	   this.name = name;
+   }
+
 	public Integer getId() {
 		return id;
 	}

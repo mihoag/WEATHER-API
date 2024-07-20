@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.skyapi.weatherforecast.exception_handler.ErrorDTO;
 import com.skyapi.weatherforecast.location.LocationNotFoundException;
+import com.skyapi.weatherforecast.security.jwt.JwtValidationException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
@@ -83,6 +84,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return error;
 	}	
 	
+	@ExceptionHandler(JwtValidationException.class)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ResponseBody
+	public ErrorDTO handleJwtValidationException(HttpServletRequest request, Exception ex) {
+		ErrorDTO error = new ErrorDTO();
+		
+		error.setTimestamp(new Date());
+		error.setStatus(HttpStatus.UNAUTHORIZED.value());
+		error.addError(ex.getMessage());
+		error.setPath(request.getServletPath());
+		
+		LOGGER.error(ex.getMessage(), ex);
+		
+		return error;
+	}		
+	
+	
 	@ExceptionHandler(LocationNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
@@ -116,4 +134,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	    });
 		return new ResponseEntity<>(error, headers, status);
 	}
+	
+	
 }

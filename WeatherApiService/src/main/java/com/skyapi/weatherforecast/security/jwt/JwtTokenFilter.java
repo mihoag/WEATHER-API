@@ -1,6 +1,9 @@
 package com.skyapi.weatherforecast.security.jwt;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.management.relation.Role;
@@ -97,10 +100,14 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 		user.setId(userId);
 		user.setUsername(username);
 		
-		Set<role> roles =  (Set<role>) claims.get("roles");
-		user.setRoles(roles);
+		List<Map<Integer, String>> roles = (List<Map<Integer, String>>) claims.get("roles");
 		
-
+	    for(Map<Integer, String> mapRole : roles)
+	    {
+	    	LOGGER.info( mapRole.get("name"));
+	        role role = new role(mapRole.get("name"));
+	        user.addRoles(role);
+	    }
 		return new CustomUserDetails(user);
 	}
 
