@@ -36,7 +36,43 @@ public class DailyWeatherDTO  {
 	public DailyWeatherDTO() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	public DailyWeatherDTO dayOfMonth(int dayOfMonth)
+	{
+		this.dayOfMonth = dayOfMonth;
+		return this;
+	}
+	
+	public DailyWeatherDTO month(int month)
+	{
+		this.month = month;
+		return this;
+	}
+	
+	public DailyWeatherDTO minTemp(int minTemp)
+	{
+		this.minTemp = minTemp;
+		return this;
+	}
+	
+	public DailyWeatherDTO maxTemp(int maxTemp)
+	{
+		this.maxTemp = maxTemp;
+		return this;
+	}
+	
+	public DailyWeatherDTO precipitation(int precipitation)
+	{
+		this.precipitation = precipitation;
+		return this;
+	}
+	
+	public DailyWeatherDTO status(String status)
+	{
+		this.status = status;
+		return this;
+	}
+	
 	public DailyWeatherDTO(int dayOfMonth,
 			 int month, int minTemp,
 			int maxTemp,
