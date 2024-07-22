@@ -1,5 +1,6 @@
 package com.skyapi.weatherforecast.security.auth;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,18 @@ public class AuthController {
 			
 			return ResponseEntity.ok(response);
 		} catch (BadCredentialsException ex) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+	}
+	
+
+	@PostMapping("/token/refresh")
+	public ResponseEntity<?> getRefreshToken(@RequestBody @Valid RequestTokenRequest request) {
+		try {
+		   AuthResponse authResponse = tokenService.refreshTokens(request);
+		   return ResponseEntity.ok(authResponse);
+		} catch (Exception e) {
+			// TODO: handle exception
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	}

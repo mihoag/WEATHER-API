@@ -11,6 +11,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
+import com.skyapi.weatherforecast.security.auth.RequestTokenRequest;
+
 @SpringBootTest
 public class AuthenticationTest {
 
@@ -24,8 +26,6 @@ public class AuthenticationTest {
 		{
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("admin", "xxx"));
 		});
-		
-		
 	}
 	
 	@Test
@@ -41,4 +41,7 @@ public class AuthenticationTest {
 		
 		assertThat(userDetail.getUsername()).isEqualTo(username);
 	}
+	
+
+	
 }

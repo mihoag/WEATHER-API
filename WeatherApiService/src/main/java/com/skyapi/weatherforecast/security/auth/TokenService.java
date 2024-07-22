@@ -1,8 +1,10 @@
 package com.skyapi.weatherforecast.security.auth;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,5 +47,36 @@ public class TokenService {
 		refreshTokenRepo.save(refreshToken);
 		
 		return response;
+	}
+	
+	public AuthResponse refreshTokens(RequestTokenRequest request) throws RefreshTokenNotFoundException, RefreshTokenExpireException
+	{
+		AuthResponse response = new AuthResponse();
+		
+		String username = request.getUsername();
+		String rawRefreshToken = request.getRefreshToken();
+		
+	   RefreshToken refreshTokenFound = null;
+	   List<RefreshToken> refreshTokens = refreshTokenRepo.findByUsername(username);
+	   for(RefreshToken refreshToken : refreshTokens)
+	   {
+		   if(passwordEncoder.matches(rawRefreshToken, refreshToken.getToken()))
+		   {
+			  refreshTokenFound = refreshToken;
+		   }
+	   }
+	   if(refreshTokenFound == null)
+	   {
+		   throw new RefreshTokenNotFoundException();
+	   }
+		
+	   Date currentTime = new Date();
+	   if(refreshTokenFound.getExpiryTime().before(currentTime))
+	   {
+		   throw new RefreshTokenExpireException();
+	   }
+	   
+	   response = generateTokens(refreshTokenFound.getU());
+	   return response;
 	}
 }
